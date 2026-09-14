@@ -1,0 +1,17 @@
+POST /events execution evidence
+================================
+
+Request 1 (valid event, high passenger count):
+curl -X POST http://127.0.0.1:8010/events -H "Content-Type: application/json" \
+  -d '{"Timestamp":"08:10","Route":"AITU-Campus-Residence","Bus":"B01","Passengers":32,"Speed_kmh":29,"Status":"ON_ROUTE"}'
+
+Response:
+{"result":"accepted","validation_errors":null,"occupancy_category":"OVER_CAPACITY"}
+
+
+Request 2 (invalid event: bad timestamp, negative passengers, speed out of range, bad status):
+curl -X POST http://127.0.0.1:8010/events -H "Content-Type: application/json" \
+  -d '{"Timestamp":"25:99","Route":"AITU-Campus-Residence","Bus":"B01","Passengers":-5,"Speed_kmh":200,"Status":"FLYING"}'
+
+Response:
+{"result":"rejected","validation_errors":"Invalid or missing Timestamp: '25:99'; Passengers must be non-negative, got -5; Speed_kmh must be within 0-120, got 200.0; Status must be one of {'ON_ROUTE', 'STOPPED'}, got 'FLYING'","occupancy_category":null}

@@ -1,0 +1,22 @@
+Streaming evidence — event_generator() over the 10-event sample
+======================================================================
+
+Each line below is printed as the generator yields it, one event at
+a time, rather than all being available at once from a pre-built list.
+
+[01] 08:00:00 Bus B01: valid=1     reason=Valid                        current_mem=391531B peak_mem=394723B
+[02] 08:01:00 Bus B02: valid=1     reason=Valid                        current_mem=391835B peak_mem=394723B
+[03] 08:02:00 Bus B01: valid=1     reason=Valid                        current_mem=391835B peak_mem=394723B
+[04] 08:03:00 Bus B02: valid=1     reason=Valid                        current_mem=391835B peak_mem=394723B
+[05] 08:04:00 Bus B01: valid=1     reason=Valid                        current_mem=391835B peak_mem=394723B
+[06] 08:05:00 Bus B02: valid=1     reason=Valid                        current_mem=391835B peak_mem=394723B
+[07] 08:06:00 Bus B01: valid=1     reason=Valid                        current_mem=391835B peak_mem=394723B
+[08] 08:07:00 Bus B02: valid=1     reason=Valid                        current_mem=391835B peak_mem=394723B
+[09] 08:08:00 Bus B01: valid=1     reason=Valid                        current_mem=391835B peak_mem=394723B
+[10] 08:09:00 Bus B02: valid=1     reason=Valid                        current_mem=391835B peak_mem=394723B
+
+Peak memory stayed flat across the run: the generator only ever holds
+the single event currently being parsed/validated, not the full
+10-event dataset. This is the property that lets the same code scale
+to a stream of unbounded length without changing analyze() or
+event_generator() itself.
